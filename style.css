@@ -126,21 +126,26 @@ input[type="color"] { width:26px; height:26px; border:1px solid var(--border); b
 .ab-hex-display { font-size:0.6rem; color:var(--text2); letter-spacing:0.04em; font-family:'FrutigerNeueVariable-Roman',monospace; flex:1; }
 
 /* ── LEARNING STUDIO ── */
-.ls-top { display:grid; grid-template-columns:1fr 1fr 260px; gap:1rem; align-items:start; }
+.ls-top { display:grid; grid-template-columns:minmax(0, 1.8fr) 320px; gap:1rem; align-items:start; }
+.ls-main-stage { display:flex; flex-direction:column; gap:0.75rem; }
 .ls-panel { display:flex; flex-direction:column; gap:0.5rem; }
-.ls-wrap { width:100%; aspect-ratio:4/3; position:relative; background:var(--ink); border:1px solid var(--border); border-radius:4px; overflow:hidden; }
+.ls-wrap { width:100%; aspect-ratio:16/9; position:relative; background:var(--ink); border:1px solid var(--border); border-radius:8px; overflow:hidden; box-shadow:inset 0 0 0 1px rgba(255,255,255,0.02); }
 .ls-wrap canvas, .ls-wrap video { position:absolute; inset:0; width:100%; height:100%; }
 video.ls-vid { object-fit:contain; }
 video.ls-cam { object-fit:cover; transform:scaleX(-1); }
 canvas.ls-ov { pointer-events:none; }
 .ls-idle { position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.6rem; }
 .ls-idle p { font-size:0.68rem; color:#666; letter-spacing:0.08em; text-transform:uppercase; }
+.ls-camera-overlay { position:absolute; right:1rem; bottom:1rem; width:min(32%, 220px); aspect-ratio:4/3; background:rgba(26,23,20,0.94); border:1px solid rgba(255,255,255,0.16); border-radius:12px; overflow:hidden; box-shadow:0 12px 28px rgba(0,0,0,0.28); z-index:5; }
+.ls-camera-overlay video, .ls-camera-overlay canvas { position:absolute; inset:0; width:100%; height:100%; }
+.ls-camera-overlay .ls-idle { backdrop-filter:blur(3px); }
 .ls-timeline { width:100%; padding:0.4rem 0 0; user-select:none; }
 .ls-track { width:100%; height:5px; background:var(--bg3); border-radius:3px; position:relative; cursor:pointer; }
 .ls-prog { position:absolute; top:0; left:0; height:100%; background:var(--border2); border-radius:3px; pointer-events:none; }
 .ls-loop-region { position:absolute; top:0; height:100%; background:rgba(200,150,42,0.22); border-left:2px solid var(--gold); border-right:2px solid var(--gold); pointer-events:none; display:none; border-radius:2px; }
 .ls-ph { position:absolute; top:50%; transform:translate(-50%,-50%); width:11px; height:11px; background:var(--text); border-radius:50%; pointer-events:none; }
 .ls-tl-labels { display:flex; justify-content:space-between; margin-top:4px; font-size:0.58rem; color:var(--text3); }
+.ls-stage-actions { margin-top:0.1rem; }
 .ls-sidebar { display:flex; flex-direction:column; gap:0.75rem; }
 .score-ring-wrap { display:flex; flex-direction:column; align-items:center; gap:0.4rem; padding:1rem 0.5rem; background:var(--bg2); border:1px solid var(--border); border-radius:4px; }
 .score-ring-label { font-size:0.56rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--text3); }
