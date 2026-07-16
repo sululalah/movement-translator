@@ -113,7 +113,11 @@ input[type="file"] { display:none; }
 #ab-ghost-canvas { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; opacity:0.32; display:none; }
 #ab-m2-cam-overlay { display:none; position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
 #ab-pose-overlay { display:none; position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+#ab-camera-overlay { display:none; position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:2; }
+.ab-camera-overlay-canvas { opacity:0.4; }
 #ab-rec-overlay { position:absolute; top:8px; right:8px; font-size:0.58rem; letter-spacing:0.12em; color:var(--danger); background:rgba(255,248,240,0.92); padding:0.2rem 0.5rem; border-radius:2px; border:1px solid var(--danger-lt); display:none; z-index:5; }
+.ab-fullscreen-btn { position:absolute; top:8px; left:8px; z-index:6; display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border:1px solid var(--border); border-radius:2px; background:rgba(255,248,240,0.9); color:var(--text); cursor:pointer; }
+.ab-fullscreen-btn:hover { background:var(--bg2); }
 #ab-rec-overlay.visible { display:block; }
 .ab-card { background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:0.85rem 1rem; display:flex; flex-direction:column; gap:0.5rem; }
 .ab-card-title { font-size:0.58rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--text3); }
@@ -226,4 +230,5 @@ canvas.ls-ov { pointer-events:none; }
 .ch-score { font-size:0.62rem; color:var(--text3); }
 
 @media(max-width:900px){ .ls-top{grid-template-columns:1fr 1fr;} .ls-sidebar{grid-column:1/-1;} .ab-layout{grid-template-columns:1fr;} }
-@media(max-width:600px){ .ls-top{grid-template-columns:1fr;} .controls{grid-template-columns:1fr;} .control-cell.full{grid-column:1;} }
+@media(max-width:900px) and (orientation: portrait){ body{padding:0.7rem 0.6rem 1rem;} .page{padding:0.8rem;} .ab-layout{grid-template-columns:1fr; gap:0.7rem; align-items:start;} .ab-sidebar{gap:0.55rem;} .ab-canvas-wrap{aspect-ratio:9/16; min-height:min(52vh, 420px);} .ab-cam-wrap{aspect-ratio:4/3; max-height:34vh;} }
+@media(max-width:600px){ .ls-top{grid-template-columns:1fr;} .controls{grid-template-columns:1fr;} .control-cell.full{grid-column:1;} .ab-ratio-grid{grid-template-columns:repeat(2, minmax(0, 1fr));} .ab-color-pad{grid-template-columns:repeat(4, minmax(0, 1fr));} }
