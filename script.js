@@ -111,6 +111,40 @@ document.querySelectorAll('.nav-tab').forEach(t=>{
   async function abInitBP(vid,mirror){if(abRafId){cancelAnimationFrame(abRafId);abRafId=null;}abBP=null;abDetecting=false;abActiveVid=null;abResetTrails();abSetSt('Loading pose model…');abBP=await new Promise(res=>{const bp=ml5.bodyPose('MoveNet',{flipped:false},()=>res(bp));});abActiveVid=vid;abActiveMirror=mirror;abSetSt('Tracking active — move to paint',true);abLoop();}
   function abLoop(){abRafId=requestAnimationFrame(abLoop);if(!abActiveVid||abActiveVid.readyState<2||abDetecting)return;if(abActiveVid.paused&&abActiveVid!==abWebcamEl)return;if(!abPrepFrame(abActiveVid,abScaleC,abSCtx))return;const sw=abScaleC.width,sh=abScaleC.height;abDetecting=true;abBP.detect(abScaleC,(poses,err)=>{abDetecting=false;if(err)return;abSkeleton(oCtx,poses,abPoseOv.width,abPoseOv.height,sw,sh,abActiveMirror);abPaint(poses,sw,sh,abActiveMirror);});}
   const abWebcamEl=document.getElementById('ab-webcam'),abSrcVidEl=document.getElementById('ab-src-video'),abFeedIdle=document.getElementById('ab-feed-idle'),abFeedIdleMsg=document.getElementById('ab-feed-idle-msg'),abVidCtrl=document.getElementById('ab-vid-controls'),abRecOv=document.getElementById('ab-rec-overlay'),abGhostVid=document.getElementById('ab-ghost-video'),abM2VidEl=document.getElementById('ab-m2-vid');
+  const abMusicEl=document.getElementById('ab-bg-music');
+  const abMusicFileInput=document.getElementById('ab-music-file-input');
+  const abMusicFilename=document.getElementById('ab-music-filename');
+  const abMusicStatus=document.getElementById('ab-music-status');
+  const abMusicPlayBtn=document.getElementById('ab-music-play-btn');
+  const abMusicStopBtn=document.getElementById('ab-music-stop-btn');
+  let abAudioCtx=null,abAudioDest=null,abAudioSource=null;
+  function abSetMusicStatus(msg){if(abMusicStatus)abMusicStatus.textContent=msg;}
+  function abEnsureMusicRouting(){
+    if(abAudioCtx) return;
+    abAudioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    abAudioDest=abAudioCtx.createMediaStreamDestination();
+    const gain=abAudioCtx.createGain();
+    gain.gain.value=1;
+    gain.connect(abAudioDest);
+    gain.connect(abAudioCtx.destination);
+    abAudioSource=abAudioCtx.createMediaElementSource(abMusicEl);
+    abAudioSource.connect(gain);
+  }
+  async function abPlayMusic(){
+    if(!abMusicEl||!abMusicEl.src)return;
+    abEnsureMusicRouting();
+    try{
+      await abAudioCtx.resume();
+      abMusicEl.loop=true;
+      await abMusicEl.play();
+      abSetMusicStatus('Music playing');
+    }catch(err){
+      abSetMusicStatus('Playback blocked by browser');
+    }
+  }
+  if(abMusicFileInput){abMusicFileInput.addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;if(abMusicFilename)abMusicFilename.textContent=f.name.length>28?'…'+f.name.slice(-25):f.name;const prev=abMusicEl.src;if(prev&&prev.startsWith('blob:'))URL.revokeObjectURL(prev);abMusicEl.src=URL.createObjectURL(f);abMusicEl.load();await abPlayMusic();});}
+  if(abMusicPlayBtn){abMusicPlayBtn.addEventListener('click',()=>abPlayMusic());}
+  if(abMusicStopBtn){abMusicStopBtn.addEventListener('click',()=>{if(abMusicEl){abMusicEl.pause();abMusicEl.currentTime=0;abSetMusicStatus('Music stopped');}});}
   ratioButtons.forEach(btn=>btn.addEventListener('click',()=>abSetAspectRatio(btn.dataset.ratio)));
   colorSwatches.forEach(sw=>sw.addEventListener('click',()=>abSetBackground(sw.dataset.color)));
   const abBgInput=document.getElementById('ab-bg-color-input');
@@ -130,7 +164,7 @@ document.querySelectorAll('.nav-tab').forEach(t=>{
   document.getElementById('ab-mode1-btn').addEventListener('click',()=>{document.getElementById('ab-mode1-btn').classList.add('active');document.getElementById('ab-mode2-btn').classList.remove('active');document.getElementById('ab-mode1-panel').classList.add('active');document.getElementById('ab-mode2-panel').classList.remove('active');abGhost.style.display='none';abM2Ov.style.display='none';abStopM2Cam();});
   document.getElementById('ab-mode2-btn').addEventListener('click',()=>{document.getElementById('ab-mode2-btn').classList.add('active');document.getElementById('ab-mode1-btn').classList.remove('active');document.getElementById('ab-mode2-panel').classList.add('active');document.getElementById('ab-mode1-panel').classList.remove('active');abGhost.style.display='block';abM2Ov.style.display='block';});
   let abIsRec=false,abMR=null,abRCh=[];
-  function abStartRec(){abRCh=[];const mime=MediaRecorder.isTypeSupported('video/webm;codecs=vp9')?'video/webm;codecs=vp9':'video/webm';abMR=new MediaRecorder(abCanvas.captureStream(30),{mimeType:mime,videoBitsPerSecond:5000000});abMR.ondataavailable=e=>{if(e.data.size>0)abRCh.push(e.data);};abMR.onstop=()=>{const a=Object.assign(document.createElement('a'),{download:'artboard-'+Date.now()+'.webm',href:URL.createObjectURL(new Blob(abRCh,{type:'video/webm'}))});a.click();};abMR.start();abIsRec=true;abRecOv.classList.add('visible');}
+  function abStartRec(){abRCh=[];const canvasStream=abCanvas.captureStream(30);const tracks=[...canvasStream.getVideoTracks()];if(abMusicEl&&abMusicEl.src&&abAudioDest&&abMusicEl.currentTime<abMusicEl.duration&&!abMusicEl.paused){const audioTracks=abAudioDest.stream.getAudioTracks();if(audioTracks.length)tracks.push(...audioTracks);}const mime=MediaRecorder.isTypeSupported('video/webm;codecs=vp9')?'video/webm;codecs=vp9':'video/webm';abMR=new MediaRecorder(new MediaStream(tracks),{mimeType:mime,videoBitsPerSecond:5000000});abMR.ondataavailable=e=>{if(e.data.size>0)abRCh.push(e.data);};abMR.onstop=()=>{const a=Object.assign(document.createElement('a'),{download:'artboard-'+Date.now()+'.webm',href:URL.createObjectURL(new Blob(abRCh,{type:'video/webm'}))});a.click();};abMR.start();abIsRec=true;abRecOv.classList.add('visible');}
   function abStopRec(){if(abMR&&abMR.state!=='inactive')abMR.stop();abIsRec=false;abRecOv.classList.remove('visible');}
   const m1Rec=document.getElementById('ab-m1-rec-btn');
   if(m1Rec){m1Rec.addEventListener('click',()=>{if(!abIsRec){abStartRec();m1Rec.classList.add('recording');m1Rec.innerHTML='<span class="record-dot"></span>Stop & Save';abSetSt('Recording…',true);}else{abStopRec();m1Rec.classList.remove('recording');m1Rec.innerHTML='<span class="record-dot"></span>Record MP4';abSetSt('Saved',true);}});}

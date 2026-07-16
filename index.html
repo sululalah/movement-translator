@@ -157,6 +157,19 @@
         </div>
       </div>
       <div class="ab-card">
+        <div class="ab-card-title">Background music</div>
+        <div class="control-row" style="flex-wrap:wrap;gap:0.5rem;">
+          <label class="btn" for="ab-music-file-input">Upload music</label>
+          <input type="file" id="ab-music-file-input" accept="audio/*">
+          <span class="file-name" id="ab-music-filename">No music selected</span>
+        </div>
+        <div class="control-row" style="flex-wrap:wrap;gap:0.5rem;">
+          <button type="button" class="btn green" id="ab-music-play-btn">Play</button>
+          <button type="button" class="btn red" id="ab-music-stop-btn">Stop</button>
+          <span class="sep" id="ab-music-status">Ready to play</span>
+        </div>
+      </div>
+      <div class="ab-card">
         <div class="ab-card-title">Body part colours</div>
         <div class="color-row"><input type="checkbox" id="ab-enable-head" checked style="cursor:pointer;accent-color:var(--accent);flex-shrink:0;"><label class="color-swatch-label" for="ab-enable-head">Head</label><input type="color" id="ab-color-head" value="#e8735a"><code class="ab-hex-display" id="ab-hex-head">#E8735A</code></div>
         <div class="color-row"><input type="checkbox" id="ab-enable-lhand" checked style="cursor:pointer;accent-color:var(--accent);flex-shrink:0;"><label class="color-swatch-label" for="ab-enable-lhand">Left hand</label><input type="color" id="ab-color-lhand" value="#e87ca0"><code class="ab-hex-display" id="ab-hex-lhand">#E87CA0</code></div>
@@ -193,6 +206,7 @@
       </div>
       <video id="ab-ghost-video" playsinline style="display:none"></video>
       <video id="ab-m2-vid" autoplay muted playsinline style="display:none"></video>
+      <audio id="ab-bg-music" preload="auto" loop style="display:none"></audio>
       <div class="ab-mode-panel active" id="ab-mode1-panel">
         <div class="ab-card">
           <div class="ab-card-title">Mode 1 — Transcribe</div>
