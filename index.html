@@ -144,12 +144,43 @@
         <div class="control-row"><span class="sep">Fade</span><input type="range" id="ab-fade-slider" min="0" max="20" step="1" value="2"><span class="value-display" id="ab-fade-display">2</span></div>
       </div>
       <div class="ab-card">
+        <div class="ab-card-title">Artboard size</div>
+        <div class="ab-ratio-grid">
+          <button type="button" class="ratio-btn" data-ratio="3:4">Vertical</button>
+          <button type="button" class="ratio-btn" data-ratio="4:3">Horizontal</button>
+          <button type="button" class="ratio-btn" data-ratio="9:16">9:16</button>
+          <button type="button" class="ratio-btn" data-ratio="4:5">4:5</button>
+          <button type="button" class="ratio-btn" data-ratio="5:7">5:7</button>
+          <button type="button" class="ratio-btn" data-ratio="3:4">3:4</button>
+          <button type="button" class="ratio-btn" data-ratio="3:5">3:5</button>
+          <button type="button" class="ratio-btn" data-ratio="2:3">2:3</button>
+        </div>
+      </div>
+      <div class="ab-card">
         <div class="ab-card-title">Body part colours</div>
         <div class="color-row"><input type="checkbox" id="ab-enable-head" checked style="cursor:pointer;accent-color:var(--accent);flex-shrink:0;"><label class="color-swatch-label" for="ab-enable-head">Head</label><input type="color" id="ab-color-head" value="#e8735a"><code class="ab-hex-display" id="ab-hex-head">#E8735A</code></div>
         <div class="color-row"><input type="checkbox" id="ab-enable-lhand" checked style="cursor:pointer;accent-color:var(--accent);flex-shrink:0;"><label class="color-swatch-label" for="ab-enable-lhand">Left hand</label><input type="color" id="ab-color-lhand" value="#e87ca0"><code class="ab-hex-display" id="ab-hex-lhand">#E87CA0</code></div>
         <div class="color-row"><input type="checkbox" id="ab-enable-rhand" checked style="cursor:pointer;accent-color:var(--accent);flex-shrink:0;"><label class="color-swatch-label" for="ab-enable-rhand">Right hand</label><input type="color" id="ab-color-rhand" value="#5a9a6a"><code class="ab-hex-display" id="ab-hex-rhand">#5A9A6A</code></div>
         <div class="color-row"><input type="checkbox" id="ab-enable-lfoot" checked style="cursor:pointer;accent-color:var(--accent);flex-shrink:0;"><label class="color-swatch-label" for="ab-enable-lfoot">Left foot</label><input type="color" id="ab-color-lfoot" value="#7a5a9a"><code class="ab-hex-display" id="ab-hex-lfoot">#7A5A9A</code></div>
         <div class="color-row"><input type="checkbox" id="ab-enable-rfoot" checked style="cursor:pointer;accent-color:var(--accent);flex-shrink:0;"><label class="color-swatch-label" for="ab-enable-rfoot">Right foot</label><input type="color" id="ab-color-rfoot" value="#4a7aaa"><code class="ab-hex-display" id="ab-hex-rfoot">#4A7AAA</code></div>
+      </div>
+      <div class="ab-card">
+        <div class="ab-card-title">Artboard background</div>
+        <div class="ab-color-pad">
+          <button type="button" class="ab-color-swatch active" data-color="#fff8f0" style="background:#fff8f0"></button>
+          <button type="button" class="ab-color-swatch" data-color="#1f1a17" style="background:#1f1a17"></button>
+          <button type="button" class="ab-color-swatch" data-color="#ffffff" style="background:#ffffff"></button>
+          <button type="button" class="ab-color-swatch" data-color="#e8f2ff" style="background:#e8f2ff"></button>
+          <button type="button" class="ab-color-swatch" data-color="#fbe8ff" style="background:#fbe8ff"></button>
+          <button type="button" class="ab-color-swatch" data-color="#e8f8e8" style="background:#e8f8e8"></button>
+          <button type="button" class="ab-color-swatch" data-color="#fff2d8" style="background:#fff2d8"></button>
+          <button type="button" class="ab-color-swatch" data-color="#f3dede" style="background:#f3dede"></button>
+        </div>
+        <div class="control-row" style="margin-top:0.35rem;">
+          <label class="btn" for="ab-bg-color-input">Custom</label>
+          <input type="color" id="ab-bg-color-input" value="#fff8f0">
+          <code class="ab-hex-display" id="ab-bg-hex">#FFF8F0</code>
+        </div>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:0.75rem;">
